@@ -1,0 +1,4 @@
+name: ChatProtection
+version: ${project.version}
+main: me.acablade.chatprotection.ChatProtectionPlugin
+description: Chat protection

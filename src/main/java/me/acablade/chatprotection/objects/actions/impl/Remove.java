@@ -1,0 +1,41 @@
+package me.acablade.chatprotection.objects.actions.impl;
+
+import lombok.AllArgsConstructor;
+import me.acablade.chatprotection.objects.actions.Action;
+import me.acablade.chatprotection.utils.Colorizer;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.event.ChatEvent;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+@AllArgsConstructor
+public class Remove extends Action {
+
+    private final Pattern regex;
+
+    @Override
+    public String getName() {
+        return "remove";
+    }
+
+    @Override
+    public void execute(ChatEvent event) {
+
+        String newMessage = Colorizer.colorize(event.getMessage());
+        String rawMessage = ChatColor.stripColor(newMessage);
+        if(regex!=null&&!regex.pattern().isEmpty()){
+            Matcher matcher = regex.matcher(rawMessage);
+            if(matcher.find()){
+                String message = event.getMessage().replaceAll(regex.pattern(), "");
+                event.setMessage(message);
+
+            }
+
+            return;
+        }
+
+        String message = event.getMessage().replaceAll(regex.pattern(), "");
+        event.setMessage(message);
+    }
+}
